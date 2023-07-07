@@ -1,7 +1,7 @@
 FROM golang:latest
 
 WORKDIR /app
-COPY ./OOM_DEMO /app
+COPY ./oom_demo /app
 
 EXPOSE 8080
 RUN export GOPROXY="http://goproxy.cn,direct"
