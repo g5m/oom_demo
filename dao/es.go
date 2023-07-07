@@ -12,7 +12,7 @@ var once sync.Once
 func NewEs() *elastic.Client {
 	once.Do(func() {
 		client, err := elastic.NewClient(
-			elastic.SetURL("127.0.0.1:9200"),
+			elastic.SetURL("123.57.167.85:9200"),
 			elastic.SetSniff(false),
 		)
 		if err != nil {
