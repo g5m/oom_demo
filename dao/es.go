@@ -16,13 +16,12 @@ func NewEs() *elastic.Client {
 
 	// })
 	client, err := elastic.NewClient(
-		elastic.SetURL("123.57.167.85:9200"),
+		elastic.SetURL("http://123.57.167.85:9200"),
 		elastic.SetSniff(false),
 	)
 	if err != nil {
 		fmt.Println(err)
 	}
-
 	esClient = client
 	return esClient
 }
