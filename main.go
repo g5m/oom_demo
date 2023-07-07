@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"time"
 
+	"oom_demo/dao"
+
 	"github.com/gin-contrib/pprof"
 	"github.com/gin-gonic/gin"
 )
@@ -28,10 +30,9 @@ func main() {
 func Router() *gin.Engine {
 	// gin framework
 	router := gin.Default()
-	v1 := router.Group("v1", AppendContext())
-
+	v1 := router.Group("v1")
 	// 定义接口
-	v1.GET("/test", Test)
+	v1.GET("/test", NewEsClient)
 	pprof.Register(router)
 	return router
 }
@@ -46,5 +47,10 @@ func AppendContext() gin.HandlerFunc {
 
 func Test(ctx *gin.Context) {
 	time.Sleep(200 * time.Millisecond)
+	ctx.JSON(http.StatusOK, nil)
+}
+
+func NewEsClient(ctx *gin.Context) {
+	dao.NewEs()
 	ctx.JSON(http.StatusOK, nil)
 }
