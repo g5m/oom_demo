@@ -1,6 +1,7 @@
 package dao
 
 import (
+	"fmt"
 	"sync"
 
 	"github.com/olivere/elastic"
@@ -16,7 +17,7 @@ func NewEs() *elastic.Client {
 			elastic.SetSniff(false),
 		)
 		if err != nil {
-			panic(err)
+			fmt.Println(err)
 		}
 		esClient = client
 	})
