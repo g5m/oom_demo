@@ -61,7 +61,7 @@ func RateLimit() gin.HandlerFunc {
 		tokenBucket := rate_limit.GetTokenBucket("test")
 		// 如果取不到令牌，直接返回响应
 		if !tokenBucket.Take() {
-			ctx.JSON(http.StatusOK, gin.H{
+			ctx.JSON(http.StatusInternalServerError, gin.H{
 				"code": 500})
 		}
 
