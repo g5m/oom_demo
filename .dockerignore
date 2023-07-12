@@ -24,4 +24,5 @@
 LICENSE
 README.md
 
-vendor/
+**/vendor/
+**/.idea

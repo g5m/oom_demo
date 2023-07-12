@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 	"net/http"
-	"time"
-
 	"oom_demo/dao"
+	"oom_demo/rate_limit"
+	"time"
 
 	"github.com/gin-contrib/pprof"
 	"github.com/gin-gonic/gin"
@@ -16,7 +16,7 @@ func main() {
 	routersInit := Router()
 	endPoint := fmt.Sprintf(":%d", 8080)
 	maxHeaderBytes := 1 << 20
-
+	rate_limit.NewTokenBucket("test", 100, 100)
 	server := &http.Server{
 		Addr:           endPoint,
 		Handler:        routersInit,
@@ -30,7 +30,7 @@ func main() {
 func Router() *gin.Engine {
 	// gin framework
 	router := gin.Default()
-	v1 := router.Group("v1")
+	v1 := router.Group("v1",RateLimit())
 	// 定义接口
 	v1.GET("/test", NewEsClient)
 	pprof.Register(router)
@@ -53,4 +53,17 @@ func Test(ctx *gin.Context) {
 func NewEsClient(ctx *gin.Context) {
 	dao.NewEs()
 	ctx.JSON(http.StatusOK, nil)
+}
+
+func RateLimit() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		// 从context中获取令牌桶
+		tokenBucket := rate_limit.GetTokenBucket("test")
+		// 如果取不到令牌，直接返回响应
+		if !tokenBucket.Take() {
+			ctx.JSON(http.StatusOK, gin.H{
+				"code": 200})
+		}
+
+	}
 }
