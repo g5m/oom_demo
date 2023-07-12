@@ -2,7 +2,10 @@ module oom_demo
 
 go 1.20
 
-require github.com/gin-gonic/gin v1.7.2
+require (
+	github.com/gin-gonic/gin v1.7.2
+	golang.org/x/time v0.3.0
+)
 
 require (
 	github.com/fortytw2/leaktest v1.3.0 // indirect

@@ -10,6 +10,7 @@ import (
 
 	"github.com/gin-contrib/pprof"
 	"github.com/gin-gonic/gin"
+	"golang.org/x/time/rate"
 )
 
 func main() {
@@ -24,6 +25,7 @@ func main() {
 	}
 
 	server.ListenAndServe()
+	rate.NewLimiter(100, 100)
 
 }
 
