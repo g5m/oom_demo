@@ -62,7 +62,7 @@ func RateLimit() gin.HandlerFunc {
 		// 如果取不到令牌，直接返回响应
 		if !tokenBucket.Take() {
 			ctx.JSON(http.StatusOK, gin.H{
-				"code": 200})
+				"code": 500})
 		}
 
 	}
