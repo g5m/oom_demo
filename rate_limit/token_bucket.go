@@ -4,6 +4,7 @@ import (
 	"sync"
 	"sync/atomic"
 	"time"
+	"golang.org/x/time/rate"
 )
 
 type tokenBucket struct {
@@ -79,4 +80,11 @@ func (tb *tokenBucket) set() {
 		return
 	}
 	tb.AvailableTokens = target
+}
+
+
+
+func Limit() {
+	limiter:=rate.NewLimiter(100, 100)
+	limiter.Allow()
 }

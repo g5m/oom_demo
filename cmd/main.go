@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"net/http"
-	"oom_demo/dao"
+	"oom_demo/db/es"
 	"oom_demo/rate_limit"
 	"time"
 
@@ -32,7 +32,7 @@ func main() {
 func Router() *gin.Engine {
 	// gin framework
 	router := gin.Default()
-	v1 := router.Group("v1",RateLimit())
+	v1 := router.Group("v1", RateLimit())
 	// 定义接口
 	v1.GET("/test", NewEsClient)
 	pprof.Register(router)
@@ -53,7 +53,7 @@ func Test(ctx *gin.Context) {
 }
 
 func NewEsClient(ctx *gin.Context) {
-	dao.NewEs()
+	es.NewEs()
 	ctx.JSON(http.StatusOK, nil)
 }
 

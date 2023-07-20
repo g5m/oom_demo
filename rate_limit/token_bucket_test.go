@@ -1,9 +1,12 @@
 package rate_limit
 
 import (
+	"context"
 	"fmt"
 	"sync"
 	"testing"
+
+	"golang.org/x/time/rate"
 )
 
 func Test_tokenBucket_startSetToken(t *testing.T) {
@@ -52,4 +55,31 @@ func Test_tokenBucket(t *testing.T) {
 		}(i)
 	}
 	g.Wait()
+}
+
+func TestGoLimiter(t *testing.T) {
+	fmt.Printf("start\n")
+	g := sync.WaitGroup{}
+	g.Add(200)
+	limiter := rate.NewLimiter(10, 50)
+
+	for i := 0; i < 200; i++ {
+		go func(i int) {
+			defer g.Done()
+			limiter.Wait(context.Background())
+			fmt.Printf("goroutine %d get token\n", i)
+			//limiter.Wait(context.Background())
+			// if limiter.Allow() {
+			// 	time.Sleep(100 * time.Microsecond)
+			// 	fmt.Printf("goroutine %d get token\n", i)
+			// 	//log.Println("goroutine %d get token\n", i)
+			// } else {
+			// 	//log.Println("goroutine %d get token failed\n", i)
+			// 	fmt.Printf("goroutine %d get token failed\n", i)
+			// }
+
+		}(i)
+	}
+	g.Wait()
+	// limiter.Allow()
 }
