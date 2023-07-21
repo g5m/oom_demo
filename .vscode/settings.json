@@ -1,0 +1,7 @@
+{
+    "genieai.enableConversationHistory": true,
+    "go.testFlags": [
+        "-v",
+        "-count=1"
+    ]
+}
