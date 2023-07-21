@@ -41,3 +41,5 @@ __debug_bin
 # app/order/internal/service/v1/exter/__debug_bin
 # app/aftersale/cmd/inter/__debug_bin
 
+
+vendor/
